@@ -1,0 +1,7 @@
+# Palettes: four NES color numbers each.
+# Lifted from Rivet Rodeo by gp assets lift; gp assets pack writes it back (docs/assets.md).
+schema = 1
+asset = "palette_hammer"
+palettes = [
+  [0x0F, 0x16, 0x27, 0x38], # 0
+]
