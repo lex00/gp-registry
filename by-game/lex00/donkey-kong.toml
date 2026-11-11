@@ -1,10 +1,10 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-11T17:29:33Z"
-expires = "2026-11-18T17:29:33Z"
+signed = "2026-11-11T18:22:55Z"
+expires = "2026-11-18T18:22:55Z"
 
 [[line]]
 package = "lex00/turnips"
-version = "1.0.1"
-id = "9a2f357e5e458f60036d1fa5cc11a7e4422192cc63d233ab217be2136cea53a9"
+version = "1.0.2"
+id = "4d83a20f67fae945b9d9147ca6206b06f65675138b28346a4ece7e02a68ee549"
 title = "Turnips"
