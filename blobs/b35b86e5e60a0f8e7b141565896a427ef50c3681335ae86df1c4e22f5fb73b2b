@@ -1,0 +1,6 @@
+# lex00/turnips: a clay look for Donkey Kong, drawn over the player's own ROM.
+[package]
+name = "lex00/turnips"
+version = "1.0.0"
+kind = "content"
+title = "Turnips"
