@@ -1,0 +1,5 @@
+format = "1"
+registry = "gp-registry"
+signed = "2026-11-11T15:48:47Z"
+expires = "2026-11-18T15:48:47Z"
+yank = []

@@ -1,0 +1,20 @@
+format = "1"
+registry = "gp-registry"
+signed = "2026-11-11T15:48:47Z"
+expires = "2026-11-18T15:48:47Z"
+
+[[package]]
+name = "lex00/donkey-kong"
+kind = "game"
+title = "Donkey Kong"
+latest = "1.0.8"
+id = "2a3d3983968d074247c1ce3cd7440e7e6e2024c4d94919f1af76f6024768317b"
+for_games = []
+
+[[package]]
+name = "lex00/turnips"
+kind = "content"
+title = "Turnips"
+latest = "1.0.0"
+id = "9c594fb53a494e7d63aac4a2143edc75dd87b1d46f343028c3ddf00d88bf6afb"
+for_games = ["lex00/donkey-kong"]
