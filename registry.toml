@@ -2,5 +2,5 @@ format = "1"
 name = "gp-registry"
 root = ""
 signing = []
-namespaces = ["lex00"]
+namespaces = ["lex00", "ddmoney420"]
 mirrors = []
