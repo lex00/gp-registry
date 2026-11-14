@@ -1,7 +1,15 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-11T23:58:11Z"
-expires = "2026-11-18T23:58:11Z"
+signed = "2026-11-14T05:45:34Z"
+expires = "2026-11-21T05:45:34Z"
+
+[[package]]
+name = "ddmoney420/orangutan-arcade"
+kind = "content"
+title = "Orangutan Arcade"
+latest = "0.9.0"
+id = "44195287a721b22994dd75a2b798b82683ec1c0a1f3ed0b56ba7334026674e04"
+for_games = ["lex00/donkey-kong"]
 
 [[package]]
 name = "lex00/donkey-kong"
