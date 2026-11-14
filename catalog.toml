@@ -1,7 +1,7 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-14T17:27:37Z"
-expires = "2026-11-21T17:27:37Z"
+signed = "2026-11-14T18:02:05Z"
+expires = "2026-11-21T18:02:05Z"
 
 [[package]]
 name = "lex00/donkey-kong"
