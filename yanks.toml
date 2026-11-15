@@ -1,5 +1,5 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-15T05:09:12Z"
-expires = "2026-11-22T05:09:12Z"
+signed = "2026-11-15T19:20:08Z"
+expires = "2026-11-22T19:20:08Z"
 yank = []
