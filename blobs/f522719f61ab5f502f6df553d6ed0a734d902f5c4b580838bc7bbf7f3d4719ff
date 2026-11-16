@@ -1,0 +1,778 @@
+# An arcade original: ram[...] reads the main CPU's addresses (work RAM
+# at 0xE000 on Midway MCR).
+platform = "arcade"
+# The state mapping, written by gp game new: where the game's RAM holds
+# each part of the model's state. Nothing is mapped yet. Add the player's
+# place first, before the first clip: a clip scored over no fields agrees
+# on every frame, and the gate would then hold every clip to it.
+schema = 22
+model = "tapper"
+source = "tapper"
+description = "The bartender's place, measured"
+align = "polled"
+
+# The game keeps its objects as 4-byte slots at E262-E345 (y, flags, picture,
+# x), which the frame's work moves and the video routine copies to the
+# sprite RAM; nothing else holds the bartender's place. His slot is E2E6
+# (tapper-m3-five, 6,102 frames with him at a bar: no other byte follows
+# his x or his y). His bar is E6F9 (0 the bottom bar, 3 the top; up adds
+# one), which changes on the frame his y does. y counts up the screen:
+# 48 is the bottom bar.
+
+# The random draws (docs/formats/draws.md): every call of the random routine
+# $5FAC, which steps the register E390 with the Z80's R register ($5FBD)
+# and returns a number from 0 to the A it was called with, in A ($5FB1 to
+# $5FB4). Each site is the call (`call $5fac`);
+# the draw is A when the routine returns. Found with `gp interp draws --find`
+# on the corpus's longest clip log (tapper.bonus.006 from power-on, 27,749
+# frames: the register E390, 2,184 reads of $5FBD) and `gp model static`'s
+# list of the calls of $5FAC. The hooks don't draw yet; the lockstep records
+# them for the customers, mugs and tips to come.
+score_draws = true
+
+[[draws]]
+site = "customer_wait_start"
+pc = 0x09DE
+ram = 0xE390
+note = "A customer's first wait: 0 to 20, plus twice (10 less its kind), into its frames left (+4). gp interp draws --find lists it among the reads stored for later (into E4B6 + 0x20 a customer)"
+
+[[draws]]
+site = "pushed_drink"
+pc = 0x106D
+ram = 0xE390
+note = "A customer reached by a mug: 0 to 6, the drink's timer. --find: a read that decides nothing within its window"
+
+[[draws]]
+site = "throw_wait"
+pc = 0x10C6
+ram = 0xE390
+note = "A customer done drinking: 0 to 15, plus 5, the frames before the empty mug comes. --find: stored for later"
+
+[[draws]]
+site = "tip_show_pick"
+pc = 0x1523
+ram = 0xE390
+note = "A tip picked up starts the show ($0BD8 calls $14E7): eight draws, each 0 to 2 ($5FAC returns at most its A), that step through the customer slots ($1526 to $1538); a customer reached that isn't in state 1, 2 or 3 turns to watch (state 6, $1553). gp model static lists this call of $5FAC; --find didn't reach it in the 27,749-frame cycle, where no tip is picked up; tapper.tip.001 runs it (gp code listing). Named arrival_slot before, for a level's start, which it isn't"
+
+[[draws]]
+site = "arrival_wait"
+pc = 0x1B6C
+ram = 0xE390
+note = "A new customer: 0 to 16, plus 16, its first wait. --find: stored for later"
+
+[[draws]]
+site = "tip_wait"
+pc = 0x213B
+ram = 0xE390
+note = "A tip left on the bar ($20DE): 0 to 3, plus 4, into E72E, the customers' throws to the next tip"
+
+[[draws]]
+site = "bonus_shake"
+pc = 0x258A
+ram = 0xE390
+note = "The bonus round: 0 to 5, which can is shaken. --find proposes it: it indexes the tables at $259D, $25AC and $25B8"
+
+[[draws]]
+site = "game_start"
+pc = 0x4AFA
+ram = 0xE390
+note = "A game's start: 0 to 2, into E3ED. --find: stored for later"
+
+[[draws]]
+site = "attract_pick"
+pc = 0x4F35
+ram = 0xE390
+note = "Attract mode: 0 to 4, not the last one (E719). --find proposes it"
+
+[[draws]]
+site = "attract_pick_2"
+pc = 0x5021
+ram = 0xE390
+note = "Attract mode, the second list: 0 to 4, not the last one (E719). --find proposes it"
+
+[[draws]]
+site = "tip_kind"
+pc = 0x59F2
+ram = 0xE390
+note = "Every 16 frames of E3C4: 0 to 3, picks from the table at $5A5C. gp model static lists this call; --find counts its reads under $5FAE, the call inside $5FAC"
+
+# Two draws read the Z80's refresh register straight, not through $5FAC
+# (docs/formats/draws.md, a site that reads a register).
+
+[[draws]]
+site = "end_twice"
+pc = 0x467E
+reg = "r"
+note = "A level's end from the second level on (E4A8 not 0, $4678): ld a,r, and bit 0 at $4680; at 0 $4684 runs $4742 a second time, so the bartender's step away from the tap ($46B4) comes 53 frames later. On the frame $4742's last wait returns, 109 from the end's first"
+
+[[draws]]
+site = "end_interlude"
+pc = 0x48E7
+reg = "r"
+note = "End script 3 ($48D1) outside the space bar, when $2B58 finds no mug on the bartender's bar: ld a,r, and bit 0 at $48E9; at 1 the interlude is $51A9, at 0 $50EF (the space bar always runs $50EF). On the frame $58C5 returns, 172 from the end's first (53 more after a second $4742)"
+
+# The mugs: 8-byte objects from E2FE (y, flags, picture, x, then a
+# second sprite's), free while y is 0. gp track found them on tapper.l8.001
+# (6 slots, stride 8, x E301); gp labels propose shows the send ($13CC)
+# writing E2FE, E306 and E30E and the mugs' move ($0742) their x. Empty
+# mugs and tips use the same slots and aren't modelled yet: they read as
+# mugs that don't move.
+[slots]
+active = 0xE2FE
+active_stride = 8
+count = 9
+note = "The mugs from E2FE, 8 bytes a slot (gp track, gp labels propose, gp element inputs). A slot holds an object while its y isn't 0. The slots hold the play's objects while the bars are set up: the setup's $4D13 writes the bars' far ends from E366 (bar 0's x at E369) with the taps, and $5F31 empties them with every object from E18E (the next setup at $4B4D, the bonus round's and the game over's), after which the slots hold the scripts' pictures (the setup's intro at $5404, the bonus round). So the play's objects stay through a customer's slide ($1CE1, the bartender off his bar), a life lost ($236E) and a level's end until the clear, as the program leaves them (tapper.l6.001, tapper.die.001). The rule before this one read them empty whenever the bartender was off a bar's line"
+vacant = "ram[0xE3BD] != 0 || ram[0xE369] == 0"
+
+[[slots.level]]
+level = "main"
+when = "ram[0xE3BD] == 0"
+
+[[slots.field]]
+note = "The mug's x"
+path = "x"
+ram = [0xE301]
+stride = 8
+
+[[slots.field]]
+note = "The mug's y: its bar's line less 5 for a full mug (52, 100, 148, 196), less 3 for an empty one or a tip"
+path = "y"
+ram = [0xE2FE]
+stride = 8
+
+[[slots.field]]
+note = "Not compared: the fraction of the mug's x, its slot's +6 ($07CF), and the frames to a full mug's next picture, +5 ($07B1)"
+path = "ext[1]"
+presentation = true
+ram = [0xE304, 0xE303]
+stride = 8
+
+[[slots.field]]
+index = true
+note = "Not compared: the mug's slot, plus 1: the send ($1468) and the throw ($10E2) take the first slot whose y is 0, so a slot emptied and taken on one frame is the same object"
+offset = 1
+path = "ext[2]"
+presentation = true
+ram = []
+
+[[slots.field]]
+note = "Not compared: the mug's flags (+4): bit 0 an empty mug, bit 3 moving left, its bar in the high nibble ($074F, $0762, $0777); set by the send ($1486 to $14C4) and the throw ($1108 to $1123)"
+path = "ext[3]"
+presentation = true
+ram = [0xE302]
+stride = 8
+
+[[slots.field]]
+note = "Not compared: the mug's flags (+1) and picture (+2), as the board reads them from sprite RAM: its board sprite's word"
+path = "ext[0]"
+presentation = true
+ram = [0xE2FF, 0xE300]
+stride = 8
+
+[[slots.kind]]
+entity = "mug"
+ids = [0]
+
+[[slots.group]]
+active = 0xE262
+active_stride = 8
+count = 16
+name = "customers"
+note = "The customers: 8-byte objects from E262 (the customer's y, flags, picture, x, then its mug's), 4 a bar from the bottom, each with a 0x20-byte record from E4B2 ($0B43 walks both). A slot holds a customer while its y isn't 0"
+vacant = "ram[0xE3BD] != 0 || ram[0xE369] == 0"
+
+[[slots.group.field]]
+note = "The customer's x"
+path = "x"
+ram = [0xE265]
+stride = 8
+
+[[slots.group.field]]
+note = "The customer's y: its bar's line, 57, 105, 153 or 201"
+path = "y"
+ram = [0xE262]
+stride = 8
+
+[[slots.group.field]]
+note = "Not compared: its state (+0) and facing (+0D, 1 on a bar whose tap is on the left)"
+path = "ext[0]"
+presentation = true
+ram = [0xE4B2, 0xE4BF, 0xE263, 0xE264]
+strides = [32, 32, 8, 8]
+
+[[slots.group.field]]
+note = "Not compared: its timer (+4)"
+path = "ext[1]"
+presentation = true
+ram = [0xE4B6]
+stride = 32
+
+[[slots.group.field]]
+note = "Not compared: its wait (+2) and drink (+9), and the mug it holds, its object's second sprite: picture (+6) and y (+4, 0 hidden)"
+path = "ext[2]"
+presentation = true
+ram = [0xE4B4, 0xE4BB, 0xE268, 0xE266]
+strides = [32, 32, 8, 8]
+
+[[slots.group.field]]
+note = "Not compared: its drink's turn (+3), the turns left (+5) and its slot (+0C)"
+path = "ext[3]"
+presentation = true
+ram = [0xE4B5, 0xE4B7, 0xE4BE]
+stride = 32
+
+[[slots.group.kind]]
+entity = "customer"
+ids = [0]
+
+[[slots.group]]
+active = 0xE25E
+active_stride = 8
+count = 1
+name = "tips"
+note = "The tip: the object at E25E (y, flags, picture, x), a tip while its picture E260 is $4D ($0B8C)"
+vacant = "ram[0xE260] != 0x4D || ram[0xE3BD] != 0 || ram[0xE369] == 0"
+
+[[slots.group.field]]
+note = "The tip's x"
+path = "x"
+ram = [0xE261]
+stride = 8
+
+[[slots.group.field]]
+note = "The tip's y: 8 above the customer that left it"
+path = "y"
+ram = [0xE25E]
+stride = 8
+
+[[slots.group.kind]]
+entity = "tip"
+ids = [0]
+
+[[slots.group]]
+active = 0xE23E
+active_stride = 4
+count = 9
+name = "dancers"
+note = "The dancers of the show a tip starts: 4-byte objects from E23E (y, flags, picture, x), the last the tip's object E25E. The pickup copies the bar shown's first picture over the nine ($150F), $0C25 the next every 6 frames ($0C62) and ends the show 255 frames on, their y 0 ($0C75). A slot holds a dancer while its y isn't 0, in a show (E70F, which only $14E7, $0C72 and the level's clear at $4B65 write)"
+vacant = "ram[0xE70F] == 0"
+
+[[slots.group.field]]
+note = "The dancer's x"
+path = "x"
+ram = [0xE241]
+stride = 4
+
+[[slots.group.field]]
+note = "The dancer's y"
+path = "y"
+ram = [0xE23E]
+stride = 4
+
+[[slots.group.field]]
+index = true
+note = "Not compared: the dancer's slot, plus 1"
+offset = 1
+path = "ext[0]"
+presentation = true
+ram = []
+
+[[slots.group.field]]
+note = "Not compared: the dancer's flags"
+path = "ext[1]"
+presentation = true
+ram = [0xE23F]
+stride = 4
+
+[[slots.group.field]]
+note = "Not compared: the dancer's picture"
+path = "ext[2]"
+presentation = true
+ram = [0xE240]
+stride = 4
+
+[[slots.group.kind]]
+entity = "dancer"
+ids = [0]
+
+[[slots.group]]
+active = 0xE41B
+active_stride = 6
+count = 24
+free = 0xFF
+name = "timers"
+vacant = "ram[0xE3BD] > 0xFF"
+note = "The game's timers ($603C sets one, $60C1 counts them each frame): 6 bytes each from E417, the frames left (+0, +1) and the routine (+3, +4). Every entry is carried, used or not ($603C takes the first idle one, so their order matters). Held, not measured"
+
+[[slots.group.field]]
+note = "Not compared: the frames left"
+path = "ext[0]"
+presentation = true
+ram = [0xE417, 0xE418]
+stride = 6
+
+[[slots.group.field]]
+note = "Not compared: the routine it runs"
+path = "ext[1]"
+presentation = true
+ram = [0xE41A, 0xE41B]
+stride = 6
+
+[[slots.group.kind]]
+entity = "timer"
+holds_slot = true
+ids = [0]
+
+[[slots.group]]
+active = 0xE4BA
+active_stride = 32
+count = 16
+free = 0xFF
+name = "records"
+vacant = "ram[0xE3BD] > 0xFF"
+note = "The customer slots' records, 0x20 bytes each from E4B2, kept while a customer is away. Held, not measured"
+
+[[slots.group.field]]
+note = "Not compared: the wait (+2) and the drink (+9)"
+path = "ext[0]"
+presentation = true
+ram = [0xE4B4, 0xE4BB]
+stride = 32
+
+[[slots.group.field]]
+note = "Not compared: the bar (+8), the facing (+0D) and the frames to the picture's next flip (+0E, $1032 and $116C)"
+path = "ext[1]"
+presentation = true
+ram = [0xE4BA, 0xE4BF, 0xE4C0]
+stride = 32
+
+[[slots.group.field]]
+note = "Not compared: the slot's number (+0C)"
+path = "ext[2]"
+presentation = true
+ram = [0xE4BE]
+stride = 32
+
+[[slots.group.field]]
+note = "Not compared: the customer's picture set (+10); $DE stands 3 higher ($1B74) and reaches the bar's ends 4 sooner ($08C3, $08FD)"
+path = "ext[3]"
+presentation = true
+ram = [0xE4C2]
+stride = 32
+
+[[slots.group.kind]]
+entity = "record"
+holds_slot = true
+ids = [0]
+
+[[slots.group]]
+active = 0xE356
+active_stride = 4
+count = 8
+name = "bar_ends"
+presentation = true
+vacant = "ram[0xE3BD] != 0"
+note = "The bars' end pieces and far ends from E356, 4 bytes each ($4D13 puts them in, $5615 and $5F31 empty them): drawn by the board, never compared"
+
+[[slots.group.field]]
+path = "x"
+ram = [0xE359]
+stride = 4
+
+[[slots.group.field]]
+path = "y"
+ram = [0xE356]
+stride = 4
+
+[[slots.group.field]]
+path = "ext[0]"
+ram = [0xE357, 0xE358]
+stride = 4
+
+[[slots.group.field]]
+index = true
+offset = 1
+path = "ext[1]"
+ram = []
+
+[[slots.group.kind]]
+entity = "bar_end"
+ids = [0]
+
+[[slots.group]]
+active = 0xE2EA
+active_stride = 4
+count = 5
+name = "bartender_parts"
+presentation = true
+vacant = "ram[0xE3BD] != 0"
+note = "The bartender's other five objects, E2EA to E2FD, 4 bytes each (tapper_bartender sets them by the play routine's $06A4): drawn by the board, never compared"
+
+[[slots.group.field]]
+path = "x"
+ram = [0xE2ED]
+stride = 4
+
+[[slots.group.field]]
+path = "y"
+ram = [0xE2EA]
+stride = 4
+
+[[slots.group.field]]
+path = "ext[0]"
+ram = [0xE2EB, 0xE2EC]
+stride = 4
+
+[[slots.group.field]]
+index = true
+offset = 1
+path = "ext[1]"
+ram = []
+
+[[slots.group.kind]]
+entity = "bartender_part"
+ids = [0]
+
+[[field]]
+note = "Not compared: 1 while the palette cycles run ($01CC). Loaded so a clip's start shows the lamps as they stand"
+path = "counters.cycle_on"
+presentation = true
+ram = [0xE410]
+
+[[field]]
+note = "Not compared: the frames to the cycles' next step (E11A + 7). Loaded so a clip's start shows the lamps as they stand"
+path = "counters.cycle_wait"
+presentation = true
+ram = [0xE121]
+
+[[field]]
+note = "Not compared: the cycles' pointer's low byte (E11A + 5); the hooks count its step from cycle_start. Loaded so a clip's start shows the lamps as they stand"
+path = "counters.cycle_index"
+presentation = true
+ram = [0xE11F]
+
+[[field]]
+note = "Not compared: the cycles' list start's low byte (E11A + 3). Loaded so a clip's start shows the lamps as they stand"
+path = "counters.cycle_start"
+presentation = true
+ram = [0xE11D]
+
+[[field]]
+note = "Not compared: the customers' walk a frame, E3B3 ($117F); the throws to the next tip E72E and the level's tips left E72F ($20DE); the tips setting E006, copied from the program's defaults at boot ($0517)"
+path = "entities.bars[0].ext[0]"
+presentation = true
+ram = [0xE3B3, 0xE72E, 0xE72F, 0xE006]
+
+[[field]]
+note = "Not compared: an empty mug's speed, E3B0 ($075C); above it the show a tip starts ($14E7, counted by $0C25): E70F on, E712 its frames left, E70E the frames to the dancers' next picture and E710 that picture's place in the bar's list"
+path = "entities.bars[0].ext[1]"
+presentation = true
+ram = [0xE3B0, 0xE70F, 0xE712, 0xE70E, 0xE710]
+
+[[field]]
+note = "Not compared: the respawn wait E3B1 ($091D), the levels cleared E4A8 and the level's row E4A9 ($4E50), for the arrivals"
+path = "entities.bars[0].ext[3]"
+presentation = true
+ram = [0xE3B1, 0xE3B2, 0xE4A8, 0xE4A9]
+
+[[field]]
+note = "Not compared: a full mug's speed, E6FE:E6FD, 8.8 ($07D2)"
+path = "entities.bars[0].ext[2]"
+presentation = true
+ram = [0xE6FD, 0xE6FE]
+signed = true
+
+[[field]]
+note = "The bartender's x: his slot's x, E2E9. Walking moves it 2 a frame; at a tap he stands at 209, 193, 177 and 161 on bars 0 (the bottom) to 3 of the saloon (tapper-m3-five, frames 1110 to 1190), 6 less once a mug is sent"
+path = "entities.player[0].x"
+ram = [0xE2E9]
+whole = true
+
+[[field.case]]
+unmeasured = "A game's first frame (E397 8, set by the start at $5876): the setup ($4B3F) waits a frame in $5E99 before $5F31 empties the objects, so the slot still holds the attract demo's bartender, which the model doesn't run"
+when = "ram[0xE397] == 8"
+
+[[field.case]]
+unmeasured = "Out of a game (E3BD 1 in attract mode, 2 at game over) the slot holds the attract mode's objects"
+when = "ram[0xE3BD] != 0"
+
+[[field.case]]
+unmeasured = "Between levels, at a level's start and in a life lost, the slot holds no bartender at a bar: his y is no bar's row (48, 96, 144 or 192, give or take the 2 his walk bobs)"
+when = "!((ram[0xE2E6] >= 46 && ram[0xE2E6] <= 50) || (ram[0xE2E6] >= 94 && ram[0xE2E6] <= 98) || (ram[0xE2E6] >= 142 && ram[0xE2E6] <= 146) || (ram[0xE2E6] >= 190 && ram[0xE2E6] <= 194))"
+
+[[field]]
+note = "The bartender's y: his slot's y, E2E6: 48 times his bar plus 48, counting up the screen (48 the bottom bar, 192 the top), and while he walks it bobs a step every 3 frames, 0, +1, +2, +1 from where the walk started (tapper-diagonal-4way-a, frames 601 to 640)"
+path = "entities.player[0].y"
+ram = [0xE2E6]
+whole = true
+
+[[field.case]]
+unmeasured = "A game's first frame (E397 8, set by the start at $5876): the setup ($4B3F) waits a frame in $5E99 before $5F31 empties the objects, so the slot still holds the attract demo's bartender, which the model doesn't run"
+when = "ram[0xE397] == 8"
+
+[[field.case]]
+unmeasured = "Out of a game (E3BD 1 in attract mode, 2 at game over) the slot holds the attract mode's objects"
+when = "ram[0xE3BD] != 0"
+
+[[field.case]]
+unmeasured = "Between levels, at a level's start and in a life lost, the slot holds no bartender at a bar"
+when = "!((ram[0xE2E6] >= 46 && ram[0xE2E6] <= 50) || (ram[0xE2E6] >= 94 && ram[0xE2E6] <= 98) || (ram[0xE2E6] >= 142 && ram[0xE2E6] <= 146) || (ram[0xE2E6] >= 190 && ram[0xE2E6] <= 194))"
+
+# Where a run leaves what the template holds: scoring stops at the first
+# frame out of scope. Set it once the level or stage byte is known, as:
+# [scope]
+# leaves = ["ram[0xE000]"]
+
+[[field]]
+note = "Not compared: the bartender's bar, E6F9 (0 the bottom bar, 3 the top), the tapper_bartender hook's word 0. It changes on the frame his y does (tapper-m3-five, frames 1116, 1136, 1153). Loaded so a clip's start knows his bar"
+path = "entities.player[0].ext[0]"
+presentation = true
+ram = [0xE6F9]
+
+[[field]]
+note = "Not compared: bar 0's far end, the object at E366: its x, E369, written on the level setup's frame. The tip's place reads it ($2107 to $211D)"
+path = "entities.tap[0].ext[0]"
+presentation = true
+ram = [0xE369]
+
+[[field]]
+note = "Not compared: the game's draw at its start, E3ED (0 or 1), which picks the list of the level's end scripts ($5623)"
+path = "entities.tap[0].ext[1]"
+presentation = true
+ram = [0xE3ED]
+
+[[field]]
+note = "Not compared: bar 1's far end, the object at E36A: its x, E36D, written on the level setup's frame. The tip's place reads it ($2107 to $211D)"
+path = "entities.tap[1].ext[0]"
+presentation = true
+ram = [0xE36D]
+
+[[field]]
+note = "Not compared: bar 2's far end, the object at E36E: its x, E371, written on the level setup's frame. The tip's place reads it ($2107 to $211D)"
+path = "entities.tap[2].ext[0]"
+presentation = true
+ram = [0xE371]
+
+[[field]]
+note = "Not compared: bar 3's far end, the object at E372: its x, E375, written on the level setup's frame. The tip's place reads it ($2107 to $211D)"
+path = "entities.tap[3].ext[0]"
+presentation = true
+ram = [0xE375]
+
+[[field]]
+note = "Not compared: bar 0's tap, the object at E346: its x, E349. Loaded so the bartender knows where the bar's tap is; it blinks (y 0) but keeps its x"
+path = "entities.tap[0].x"
+presentation = true
+ram = [0xE349]
+
+[[field]]
+bits = [4, 5]
+note = "Not compared: bar 0's tap's side: bit 4 of its flags, E347, set (13) for a tap on the bar's left end, mirrored"
+path = "entities.tap[0].facing"
+presentation = true
+ram = [0xE347]
+values = ["right", "left"]
+
+[[field]]
+note = "Not compared: bar 1's tap, the object at E34A: its x, E34D. Loaded so the bartender knows where the bar's tap is; it blinks (y 0) but keeps its x"
+path = "entities.tap[1].x"
+presentation = true
+ram = [0xE34D]
+
+[[field]]
+bits = [4, 5]
+note = "Not compared: bar 1's tap's side: bit 4 of its flags, E34B, set (13) for a tap on the bar's left end, mirrored"
+path = "entities.tap[1].facing"
+presentation = true
+ram = [0xE34B]
+values = ["right", "left"]
+
+[[field]]
+note = "Not compared: bar 2's tap, the object at E34E: its x, E351. Loaded so the bartender knows where the bar's tap is; it blinks (y 0) but keeps its x"
+path = "entities.tap[2].x"
+presentation = true
+ram = [0xE351]
+
+[[field]]
+bits = [4, 5]
+note = "Not compared: bar 2's tap's side: bit 4 of its flags, E34F, set (13) for a tap on the bar's left end, mirrored"
+path = "entities.tap[2].facing"
+presentation = true
+ram = [0xE34F]
+values = ["right", "left"]
+
+[[field]]
+note = "Not compared: bar 3's tap, the object at E352: its x, E355. Loaded so the bartender knows where the bar's tap is; it blinks (y 0) but keeps its x"
+path = "entities.tap[3].x"
+presentation = true
+ram = [0xE355]
+
+[[field]]
+bits = [4, 5]
+note = "Not compared: bar 3's tap's side: bit 4 of its flags, E353, set (13) for a tap on the bar's left end, mirrored"
+path = "entities.tap[3].facing"
+presentation = true
+ram = [0xE353]
+values = ["right", "left"]
+
+[[field]]
+note = "Not compared: the bartender's bob, the hook's word 2: E727 (frames left to the next step, 2 to 0) plus 256 times E729 (the step, 0 to 3). Loaded so a start inside a walk bobs on the game's frame. Bytes 2 and 3 are his object's flags and picture (E2E7, E2E8), as the board reads them, for his board sprite; bytes 4 to 7 the play routine's E706 (standing's wait), E715 (the pour's count), E714 (the mug full) and E718 (a mug to send), which choose his pictures"
+path = "entities.player[0].ext[2]"
+presentation = true
+ram = [0xE727, 0xE729, 0xE2E7, 0xE2E8, 0xE706, 0xE715, 0xE714, 0xE718]
+
+[[field]]
+lookup = [[0, 1]]
+lookup_else = 0
+note = "Not compared: the flow's word 0, 1 on the frame the level setup ($4B3F) has cleared the level's RAM: E6F2 is 0 then and on no other frame of a game (tapper-m3b-cycle: the frame before each of the bartender's 18 appearances, and the wait before the first level). The bartender appears on the next"
+path = "entities.flow[0].ext[0]"
+presentation = true
+ram = [0xE6F2]
+
+[[field.case]]
+number = 0
+when = "ram[0xE3BD] != 0"
+
+[[field.case]]
+note = "E6F2 is 0 too before a game's first setup has cleared it: in the boot (E397 0) and through the first level's intro ($5404, entered from the setup at $4B62 in a game). On the setup's own frame the game is in the setup's state (E397 8 for the first level, 9 or 11 for the next) and the objects from E18E, the bartender's at E2E6 among them, are empty: $5F31 clears them before the level's RAM ($4B4D, and $54DB at the intro's end)"
+number = 0
+when = "ram[0xE2E6] != 0 || (ram[0xE397] != 8 && ram[0xE397] != 9 && ram[0xE397] != 11)"
+
+[[field]]
+note = "Not compared: the level's layout, E3AF: bit k set puts bar k's tap on its left end. The setup reads it to draw the taps and to place the bartender ($4BF9). Above it the wait a script is in: $232B keeps the state it was called in at E3A8 and where it goes on at E3A9, and $5FE6 its registers from E39D (B at E39F), so a start inside $1CE1 knows its frame; then the lives, E4A7 ($1D71, $23AF)"
+path = "entities.flow[0].ext[1]"
+presentation = true
+ram = [0xE3AF, 0xE3A8, 0xE3A9, 0xE3AA, 0xE39F, 0xE4A7]
+
+[[field]]
+note = "Not compared: the game's state E397 at a clip's start (the main loop's dispatch at $22B2: 10 in play, 8 starting the first level, 11 the next one), which says when a level's setup runs against the frame's timers, and 256 times the bar shown, E3B8, whose records the setup copies in; above them a life lost's step E6FF and its count E706 ($236E)"
+path = "entities.flow[0].ext[3]"
+presentation = true
+ram = [0xE397, 0xE3B8, 0xE6FF, 0xE706]
+
+[[field]]
+digits = true
+note = "The score: six digits a byte, E3F5 to E3FA, most significant first (the points routine $5EF3 adds into E3FA and carries up; player 2's would be 6 bytes on, by E3F2)"
+path = "counters.score"
+ram = [0xE3F5, 0xE3F6, 0xE3F7, 0xE3F8, 0xE3F9, 0xE3FA]
+
+[[field]]
+note = "Lives, E4A7: 3 at the start ($4B22), 1 less at a life lost ($23AF), 1 more at an extra life ($615D)"
+path = "counters.lives"
+ram = [0xE4A7]
+
+[[field.case]]
+unmeasured = "Outside a game (E3BD not 0) the attract mode's demo game plays with the lives as the last game left them and takes one at its own mug's fall ($23AF, 0 to 255); the model doesn't play the demo game"
+when = "ram[0xE3BD] != 0"
+
+[[field]]
+note = "Not compared: the extra lives given, E3F3 ($6158), loaded so a clip's start knows which extra-life scores it has passed"
+path = "counters.lives_given"
+presentation = true
+ram = [0xE3F3]
+
+[[field]]
+note = "Not compared until the model keeps it: Levels cleared, E4A8: 1 more at each level's end ($5681), bonus rounds included"
+path = "counters.cleared"
+presentation = true
+ram = [0xE4A8]
+
+[[field]]
+note = "Not compared until the model keeps it: The bar shown, E3B8: 0 to 3, set at each level's start from E4A8 ($3C60)"
+path = "counters.shown"
+presentation = true
+ram = [0xE3B8]
+
+[[field]]
+note = "Not compared until the model keeps it: The mode, E3BD: 0 in a game, 1 attract mode, 2 game over"
+path = "counters.mode"
+presentation = true
+ram = [0xE3BD]
+
+[[field]]
+note = "Not compared: the sound requests' state as the frame ends, loaded at a clip's start so the next send's turn bit is the game's: E111, the bit the send ($03D9) flips on latch 0; E099, coins counted the send hasn't answered ($0380); E011, the credits. The queue itself (E114, E0E1) isn't loaded: every request the model sends is one its hooks made"
+path = "entities.sound[0].ext[0]"
+presentation = true
+ram = [0xE111, 0xE099, 0xE011]
+
+[[field]]
+note = "Not compared: bar 0's tap's flags and picture, its board sprite's word"
+path = "entities.tap[0].ext[2]"
+presentation = true
+ram = [0xE347, 0xE348]
+
+[[field]]
+note = "Not compared: bar 0's tap's y, where the board draws it"
+path = "entities.tap[0].y"
+presentation = true
+ram = [0xE346]
+
+[[field]]
+note = "Not compared: bar 1's tap's flags and picture, its board sprite's word"
+path = "entities.tap[1].ext[2]"
+presentation = true
+ram = [0xE34B, 0xE34C]
+
+[[field]]
+note = "Not compared: bar 1's tap's y, where the board draws it"
+path = "entities.tap[1].y"
+presentation = true
+ram = [0xE34A]
+
+[[field]]
+note = "Not compared: bar 2's tap's flags and picture, its board sprite's word"
+path = "entities.tap[2].ext[2]"
+presentation = true
+ram = [0xE34F, 0xE350]
+
+[[field]]
+note = "Not compared: bar 2's tap's y, where the board draws it"
+path = "entities.tap[2].y"
+presentation = true
+ram = [0xE34E]
+
+[[field]]
+note = "Not compared: bar 3's tap's flags and picture, its board sprite's word"
+path = "entities.tap[3].ext[2]"
+presentation = true
+ram = [0xE353, 0xE354]
+
+[[field]]
+note = "Not compared: bar 3's tap's y, where the board draws it"
+path = "entities.tap[3].y"
+presentation = true
+ram = [0xE352]
+
+[[field]]
+note = "Not compared: credits, E011 (the coin routine $0213 adds them, $5860 takes one at a start). Loaded so a start in the attract mode knows whether a start button begins a game"
+path = "counters.credits"
+presentation = true
+ram = [0xE011]
+
+[[field]]
+note = "Not compared: coins toward the next credit, E012 ($0242 to $0255)"
+path = "counters.coins"
+presentation = true
+ram = [0xE012]
+
+[[field]]
+lookup = [[0, 1]]
+lookup_else = 0
+note = "Not compared: the coin switch as the coin routine last saw it settled, E097: 0 while a coin is held, so the counter is 1 then; a credit comes when it is let go ($0229)"
+path = "counters.coin_held"
+presentation = true
+ram = [0xE097]
+
+[[field]]
+note = "Not compared: the stage shown, the levels cleared E4A8 as the setup's $5DF6 takes it to pick the screen from the words at $61ED (from 26 on the hooks count 13 to 25 again); between a level's end ($5681) and the next setup's $5DF6 the screen is still the last level's. Loaded so a clip's start draws its stage"
+path = "counters.stage"
+presentation = true
+ram = [0xE4A8]
+
+[[field]]
+lookup = [[5, 1]]
+lookup_else = 0
+note = "Not compared: 1 in the bonus round: $256A numbers the cans 0 to 5 in E700 to E705, which the next setup's $4B65 clears; E705 holds nothing else in a game (tapper-cycle: 5 only from each round's $256A to the setup after it)"
+path = "counters.bonus"
+presentation = true
+ram = [0xE705]
