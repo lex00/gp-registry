@@ -2,9 +2,3 @@ format = "1"
 registry = "gp-registry"
 signed = "2026-11-17T02:11:42Z"
 expires = "2026-11-24T02:11:42Z"
-
-[[line]]
-package = "lex00/neon-shift"
-version = "0.1.0"
-id = "37eb04c1b47f66d9ad083594da236cb404791ad0ffe94d88e44dcd16491bd0ab"
-title = "Neon Shift"
