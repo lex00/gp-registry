@@ -1,0 +1,10 @@
+format = "1"
+name = "lex00/tapper"
+version = "0.1.6"
+id = "61a4a687cdfd7831ad90795f555e3af06e7c43149f33fea8bae39713210f93c0"
+kind = "game"
+title = "Tapper"
+size = 7723543
+published = "2026-11-18T08:12:27Z"
+signer = ""
+for_games = []
