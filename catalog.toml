@@ -1,7 +1,7 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-19T05:25:57Z"
-expires = "2026-11-26T05:25:57Z"
+signed = "2026-11-19T06:13:23Z"
+expires = "2026-11-26T06:13:23Z"
 
 [[package]]
 name = "lex00/donkey-kong"
@@ -15,8 +15,8 @@ for_games = []
 name = "lex00/tapper"
 kind = "game"
 title = "Tapper"
-latest = "0.1.10"
-id = "976e25a845200afc7393be95be97a4688bbf1f42e043c5dc7282c2dc10de8a4d"
+latest = "0.1.11"
+id = "e8dab51ee665f2b7a4a339700fc552580e121e5074164623c1d70cfb198ec201"
 for_games = []
 
 [[package]]
