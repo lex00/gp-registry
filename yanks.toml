@@ -1,7 +1,7 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-25T18:22:06Z"
-expires = "2026-12-02T18:22:06Z"
+signed = "2026-11-25T22:24:59Z"
+expires = "2026-12-02T22:24:59Z"
 
 [[yank]]
 name = "lex00/neon-shift"
