@@ -1,7 +1,7 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-19T06:13:23Z"
-expires = "2026-11-26T06:13:23Z"
+signed = "2026-11-25T18:22:06Z"
+expires = "2026-12-02T18:22:06Z"
 
 [[package]]
 name = "lex00/donkey-kong"
@@ -10,6 +10,14 @@ title = "Donkey Kong"
 latest = "1.0.10"
 id = "40956360c2a176047f5933bf55930590718db52c38f0d8cac3c94cc2bd2c2fa9"
 for_games = []
+
+[[package]]
+name = "lex00/last-call"
+kind = "content"
+title = "Last Call"
+latest = "0.2.0"
+id = "987bb25c4f9cee1927464a419fa28524d8c79cb64d358ce10391186fb70103e6"
+for_games = ["lex00/tapper"]
 
 [[package]]
 name = "lex00/tapper"
