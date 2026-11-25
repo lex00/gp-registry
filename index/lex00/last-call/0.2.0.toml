@@ -1,0 +1,10 @@
+format = "1"
+name = "lex00/last-call"
+version = "0.2.0"
+id = "987bb25c4f9cee1927464a419fa28524d8c79cb64d358ce10391186fb70103e6"
+kind = "content"
+title = "Last Call"
+size = 23110812
+published = "2026-11-25T18:21:50Z"
+signer = ""
+for_games = ["lex00/tapper"]
