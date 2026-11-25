@@ -1,0 +1,12 @@
+gp-presses 0
+frames 211
+arcade tapper CSRLDUT
+tap@0-14
+down@24-31
+tap@41-73
+down@83-90
+tap@100-132
+up@142-148
+up@159-165
+up@175-182
+tap@192-210
