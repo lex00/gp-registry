@@ -1,10 +1,16 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-26T03:04:01Z"
-expires = "2026-12-03T03:04:01Z"
+signed = "2026-11-26T05:36:28Z"
+expires = "2026-12-03T05:36:28Z"
 
 [[line]]
 package = "lex00/last-call"
 version = "0.2.0"
 id = "987bb25c4f9cee1927464a419fa28524d8c79cb64d358ce10391186fb70103e6"
+title = "Last Call"
+
+[[line]]
+package = "lex00/last-call"
+version = "0.2.1"
+id = "50b6d321ff671d4940f6cebfa2f5af25d689b6c142d59c73b729b9ceebcdc5f2"
 title = "Last Call"
