@@ -1,7 +1,7 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-26T22:05:22Z"
-expires = "2026-12-03T22:05:22Z"
+signed = "2026-11-27T22:29:52Z"
+expires = "2026-12-04T22:29:52Z"
 
 [[line]]
 package = "lex00/turnips"
