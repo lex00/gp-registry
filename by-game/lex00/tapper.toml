@@ -1,7 +1,7 @@
 format = "1"
 registry = "gp-registry"
-signed = "2026-11-27T22:29:52Z"
-expires = "2026-12-04T22:29:52Z"
+signed = "2026-11-28T04:28:35Z"
+expires = "2026-12-05T04:28:35Z"
 
 [[line]]
 package = "lex00/last-call"
