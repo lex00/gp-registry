@@ -1,0 +1,1031 @@
+# The corpus plan (format 1.0.0): the recipes that make this game's clips.
+# Written empty by gp game new. Each clip is presses from power-on and
+# presses from there, as canonical `.presses` files in inputs/, with a
+# frame count. Curves are never kept here: `gp game score` derives them
+# from your own ROM.
+
+[corpus]
+format = "1.0.0"
+name = "tapper"
+version = "3.1.0"
+title = "Tapper"
+recipes = "b3:d837fd08a350c2a6eae835b0df9b8aa1e95270ee65341be8e8765e9dfaf0d5e0"
+
+[target]
+game = "tapper"
+rom = "1da6316bba4785d780b3df3dc2a46753c09215cfa009f6f69dfd58cf753f4da9"
+
+[[clip]]
+id = "tapper.score.001"
+name = "Serving at all four bars"
+source = "played"
+start = "inputs/tapper.score.001.start.presses"
+presses = "inputs/tapper.score.001.presses"
+frames = 335
+why = "a beer served at each bar, the points for it, and a walk along the top bar"
+level = "saloon"
+
+[[clip]]
+id = "tapper.attract.001"
+name = "The attract mode after the boot"
+source = "played"
+start = "inputs/tapper.attract.001.start.presses"
+presses = "inputs/tapper.attract.001.presses"
+frames = 815
+why = "the attract demo from the end of the boot to the coin"
+level = "attract"
+
+[[clip]]
+id = "tapper.die.001"
+name = "Losing the first life"
+source = "played"
+start = "inputs/tapper.die.001.start.presses"
+presses = "inputs/tapper.die.001.presses"
+frames = 269
+why = "the sequence after a life is lost, to play starting again"
+level = "saloon"
+
+[[clip]]
+id = "tapper.die.002"
+name = "Losing the second life"
+source = "played"
+start = "inputs/tapper.die.002.start.presses"
+presses = "inputs/tapper.die.002.presses"
+frames = 269
+why = "the same with two lives gone"
+level = "saloon"
+
+[[clip]]
+id = "tapper.die.003"
+name = "Losing the last life"
+source = "played"
+start = "inputs/tapper.die.003.start.presses"
+presses = "inputs/tapper.die.003.presses"
+frames = 251
+why = "the last life lost, to the game over"
+level = "saloon"
+
+[[clip]]
+id = "tapper.gameover.001"
+name = "Game over"
+source = "played"
+start = "inputs/tapper.gameover.001.start.presses"
+presses = "inputs/tapper.gameover.001.presses"
+frames = 1202
+why = "the game over sequence, to the attract mode"
+level = "saloon"
+
+[[clip]]
+id = "tapper.start.001"
+name = "The first level's start"
+source = "played"
+start = "inputs/tapper.start.001.start.presses"
+presses = "inputs/tapper.start.001.presses"
+frames = 138
+why = "from the start button to the first play frame of bar 1, level 1"
+level = "bar1"
+
+[[clip]]
+id = "tapper.l1.001"
+name = "Bar 1, level 1, start to clear"
+source = "played"
+start = "inputs/tapper.l1.001.start.presses"
+presses = "inputs/tapper.l1.001.presses"
+frames = 335
+why = "the first level played from its first frame to the frame it clears"
+level = "bar1"
+
+[[clip]]
+id = "tapper.clear.001"
+name = "After level 1"
+source = "played"
+start = "inputs/tapper.clear.001.start.presses"
+presses = "inputs/tapper.clear.001.presses"
+frames = 38
+why = "the level clear and the next level's start"
+level = "bar1"
+
+[[clip]]
+id = "tapper.l2.001"
+name = "Bar 1, level 2, start to clear"
+source = "played"
+start = "inputs/tapper.l2.001.start.presses"
+presses = "inputs/tapper.l2.001.presses"
+frames = 327
+why = "the second level played to its clear"
+level = "bar1"
+
+[[clip]]
+id = "tapper.clear.002"
+name = "After level 2"
+source = "played"
+start = "inputs/tapper.clear.002.start.presses"
+presses = "inputs/tapper.clear.002.presses"
+frames = 23
+why = "the clear before the bonus round"
+level = "bar1"
+
+[[clip]]
+id = "tapper.bonus.001"
+name = "The first bonus round"
+source = "played"
+start = "inputs/tapper.bonus.001.start.presses"
+presses = "inputs/tapper.bonus.001.presses"
+frames = 1041
+why = "the shaker bonus round, won, to its end"
+level = "bonus"
+
+[[clip]]
+id = "tapper.clear.003"
+name = "After the first bonus round"
+source = "played"
+start = "inputs/tapper.clear.003.start.presses"
+presses = "inputs/tapper.clear.003.presses"
+frames = 38
+why = "the bonus round's end and the next bar's start"
+level = "bar2"
+
+[[clip]]
+id = "tapper.l3.001"
+name = "Bar 2, level 3, start to clear"
+source = "played"
+start = "inputs/tapper.l3.001.start.presses"
+presses = "inputs/tapper.l3.001.presses"
+frames = 406
+why = "level 3 played to its clear"
+level = "bar2"
+
+[[clip]]
+id = "tapper.clear.004"
+name = "After level 3"
+source = "played"
+start = "inputs/tapper.clear.004.start.presses"
+presses = "inputs/tapper.clear.004.presses"
+frames = 95
+why = "the level clear and the next level's start"
+level = "bar2"
+
+[[clip]]
+id = "tapper.l4.001"
+name = "Bar 2, level 4, start to clear"
+source = "played"
+start = "inputs/tapper.l4.001.start.presses"
+presses = "inputs/tapper.l4.001.presses"
+frames = 1639
+why = "level 4 played to its clear"
+level = "bar2"
+
+[[clip]]
+id = "tapper.clear.005"
+name = "After level 4"
+source = "played"
+start = "inputs/tapper.clear.005.start.presses"
+presses = "inputs/tapper.clear.005.presses"
+frames = 38
+why = "the level clear and the next level's start"
+level = "bar2"
+
+[[clip]]
+id = "tapper.l5.001"
+name = "Bar 2, level 5, start to clear, a life lost on the way"
+source = "played"
+start = "inputs/tapper.l5.001.start.presses"
+presses = "inputs/tapper.l5.001.presses"
+frames = 1181
+why = "level 5 played to its clear, with a life lost and play starting again"
+level = "bar2"
+
+[[clip]]
+id = "tapper.clear.006"
+name = "After level 5"
+source = "played"
+start = "inputs/tapper.clear.006.start.presses"
+presses = "inputs/tapper.clear.006.presses"
+frames = 23
+why = "the clear before the second bonus round"
+level = "bar2"
+
+[[clip]]
+id = "tapper.bonus.002"
+name = "The second bonus round"
+source = "played"
+start = "inputs/tapper.bonus.002.start.presses"
+presses = "inputs/tapper.bonus.002.presses"
+frames = 1131
+why = "the second shaker round to its end"
+level = "bonus"
+
+[[clip]]
+id = "tapper.clear.007"
+name = "After the second bonus round"
+source = "played"
+start = "inputs/tapper.clear.007.start.presses"
+presses = "inputs/tapper.clear.007.presses"
+frames = 38
+why = "its end and the third bar's start"
+level = "bar3"
+
+[[clip]]
+id = "tapper.l6.001"
+name = "Bar 3, level 6, not cleared"
+source = "played"
+start = "inputs/tapper.l6.001.start.presses"
+presses = "inputs/tapper.l6.001.presses"
+frames = 1680
+why = "level 6 played until the last life is lost: the player doesn't clear it"
+level = "bar3"
+
+[[clip]]
+id = "tapper.gameover.002"
+name = "Game over after level 6"
+source = "played"
+start = "inputs/tapper.gameover.002.start.presses"
+presses = "inputs/tapper.gameover.002.presses"
+frames = 1202
+why = "the game over sequence with a score, to the attract mode"
+level = "bar3"
+
+[[clip]]
+id = "tapper.l6.002"
+name = "Bar 3, level 6, start to clear"
+source = "played"
+start = "inputs/tapper.l6.002.start.presses"
+presses = "inputs/tapper.l6.002.presses"
+frames = 3173
+why = "the first punk bar level played to its clear, an extra life on the way"
+level = "bar3"
+
+[[clip]]
+id = "tapper.clear.008"
+name = "After level 6"
+source = "played"
+start = "inputs/tapper.clear.008.start.presses"
+presses = "inputs/tapper.clear.008.presses"
+frames = 38
+why = "the level clear and the next level's start"
+level = "bar3"
+
+[[clip]]
+id = "tapper.l7.001"
+name = "Bar 3, level 7, start to clear"
+source = "played"
+start = "inputs/tapper.l7.001.start.presses"
+presses = "inputs/tapper.l7.001.presses"
+frames = 1575
+why = "level 7 played to its clear"
+level = "bar3"
+
+[[clip]]
+id = "tapper.clear.009"
+name = "After level 7"
+source = "played"
+start = "inputs/tapper.clear.009.start.presses"
+presses = "inputs/tapper.clear.009.presses"
+frames = 38
+why = "the level clear and the next level's start"
+level = "bar3"
+
+[[clip]]
+id = "tapper.l8.001"
+name = "Bar 3, level 8, start to clear, a life lost on the way"
+source = "played"
+start = "inputs/tapper.l8.001.start.presses"
+presses = "inputs/tapper.l8.001.presses"
+frames = 3942
+why = "level 8 played to its clear, a life lost and play starting again"
+level = "bar3"
+
+[[clip]]
+id = "tapper.clear.010"
+name = "After level 8"
+source = "played"
+start = "inputs/tapper.clear.010.start.presses"
+presses = "inputs/tapper.clear.010.presses"
+frames = 38
+why = "the level clear and level 9's start"
+level = "bar3"
+
+[[clip]]
+id = "tapper.bonus.003"
+name = "The second bonus round, won"
+source = "played"
+start = "inputs/tapper.bonus.003.start.presses"
+presses = "inputs/tapper.bonus.003.presses"
+frames = 549
+why = "the second shaker round, the right can picked"
+level = "bonus"
+
+[[clip]]
+id = "tapper.clear.011"
+name = "After the second bonus round, won"
+source = "played"
+start = "inputs/tapper.clear.011.start.presses"
+presses = "inputs/tapper.clear.011.presses"
+frames = 38
+why = "the round's end and the punk bar's start"
+level = "bar3"
+
+[[clip]]
+id = "tapper.clear.012"
+name = "After level 8, before level 9"
+source = "played"
+start = "inputs/tapper.clear.012.start.presses"
+presses = "inputs/tapper.clear.012.presses"
+frames = 38
+why = "the level clear and level 9's start"
+level = "bar3"
+
+[[clip]]
+id = "tapper.l9.001"
+name = "Bar 3, level 9, start to clear"
+source = "played"
+start = "inputs/tapper.l9.001.start.presses"
+presses = "inputs/tapper.l9.001.presses"
+frames = 1734
+why = "the punk bar's fourth level played to its clear"
+level = "bar3"
+
+[[clip]]
+id = "tapper.clear.013"
+name = "After level 9"
+source = "played"
+start = "inputs/tapper.clear.013.start.presses"
+presses = "inputs/tapper.clear.013.presses"
+frames = 22
+why = "the clear before the third bonus round"
+level = "bar3"
+
+[[clip]]
+id = "tapper.bonus.004"
+name = "The third bonus round, won"
+source = "played"
+start = "inputs/tapper.bonus.004.start.presses"
+presses = "inputs/tapper.bonus.004.presses"
+frames = 449
+why = "the third shaker round to its end"
+level = "bonus"
+
+[[clip]]
+id = "tapper.bonus.007"
+name = "The third bonus round, lost by the button"
+source = "scripted"
+start = "inputs/tapper.bonus.004.start.presses"
+presses = "inputs/tapper.bonus.007.presses"
+frames = 539
+why = "a wrong can chosen with the button ($2787 to $284D): the other bonus clips lose only when the time runs out, and win by the button"
+level = "bonus"
+
+[[clip]]
+id = "tapper.clear.014"
+name = "After the third bonus round"
+source = "played"
+start = "inputs/tapper.clear.014.start.presses"
+presses = "inputs/tapper.clear.014.presses"
+frames = 69
+why = "its end and the space bar's start"
+level = "bar4"
+
+[[clip]]
+id = "tapper.l10.001"
+name = "Bar 4, level 10, start to clear"
+source = "played"
+start = "inputs/tapper.l10.001.start.presses"
+presses = "inputs/tapper.l10.001.presses"
+frames = 3042
+why = "the space bar's first level played to its clear"
+level = "bar4"
+
+[[clip]]
+id = "tapper.clear.015"
+name = "After level 10"
+source = "played"
+start = "inputs/tapper.clear.015.start.presses"
+presses = "inputs/tapper.clear.015.presses"
+frames = 69
+why = "the level clear and the next level's start"
+level = "bar4"
+
+[[clip]]
+id = "tapper.l11.001"
+name = "Bar 4, level 11, start to clear"
+source = "played"
+start = "inputs/tapper.l11.001.start.presses"
+presses = "inputs/tapper.l11.001.presses"
+frames = 1399
+why = "level 11 played to its clear"
+level = "bar4"
+
+[[clip]]
+id = "tapper.clear.016"
+name = "After level 11"
+source = "played"
+start = "inputs/tapper.clear.016.start.presses"
+presses = "inputs/tapper.clear.016.presses"
+frames = 69
+why = "the level clear and the next level's start"
+level = "bar4"
+
+[[clip]]
+id = "tapper.l12.001"
+name = "Bar 4, level 12, start to clear"
+source = "played"
+start = "inputs/tapper.l12.001.start.presses"
+presses = "inputs/tapper.l12.001.presses"
+frames = 1783
+why = "level 12 played to its clear"
+level = "bar4"
+
+[[clip]]
+id = "tapper.clear.017"
+name = "After level 12"
+source = "played"
+start = "inputs/tapper.clear.017.start.presses"
+presses = "inputs/tapper.clear.017.presses"
+frames = 69
+why = "the level clear and the next level's start"
+level = "bar4"
+
+[[clip]]
+id = "tapper.l13.001"
+name = "Bar 4, level 13, start to clear, an extra life won and a life lost"
+source = "played"
+start = "inputs/tapper.l13.001.start.presses"
+presses = "inputs/tapper.l13.001.presses"
+frames = 1463
+why = "level 13 played to its clear, with an extra life, a life lost and play starting again"
+level = "bar4"
+
+[[clip]]
+id = "tapper.clear.018"
+name = "After level 13"
+source = "played"
+start = "inputs/tapper.clear.018.start.presses"
+presses = "inputs/tapper.clear.018.presses"
+frames = 22
+why = "the clear before the fourth bonus round"
+level = "bar4"
+
+[[clip]]
+id = "tapper.bonus.005"
+name = "The fourth bonus round, won"
+source = "played"
+start = "inputs/tapper.bonus.005.start.presses"
+presses = "inputs/tapper.bonus.005.presses"
+frames = 497
+why = "the fourth shaker round to its end"
+level = "bonus"
+
+[[clip]]
+id = "tapper.clear.019"
+name = "After the fourth bonus round: back to the saloon"
+source = "played"
+start = "inputs/tapper.clear.019.start.presses"
+presses = "inputs/tapper.clear.019.presses"
+frames = 38
+why = "the round's end and the saloon's start as the game cycles"
+level = "cycle"
+
+[[clip]]
+id = "tapper.l14.001"
+name = "The saloon again, level 14, start to clear"
+source = "played"
+start = "inputs/tapper.l14.001.start.presses"
+presses = "inputs/tapper.l14.001.presses"
+frames = 3374
+why = "the first level of the game's second cycle played to its clear"
+level = "cycle"
+
+[[clip]]
+id = "tapper.clear.020"
+name = "After level 14"
+source = "played"
+start = "inputs/tapper.clear.020.start.presses"
+presses = "inputs/tapper.clear.020.presses"
+frames = 38
+why = "the level clear and the next level's start"
+level = "cycle"
+
+[[clip]]
+id = "tapper.l15.001"
+name = "The saloon again, level 15, start to clear"
+source = "played"
+start = "inputs/tapper.l15.001.start.presses"
+presses = "inputs/tapper.l15.001.presses"
+frames = 2540
+why = "level 15 played to its clear"
+level = "cycle"
+
+[[clip]]
+id = "tapper.clear.021"
+name = "After level 15"
+source = "played"
+start = "inputs/tapper.clear.021.start.presses"
+presses = "inputs/tapper.clear.021.presses"
+frames = 22
+why = "the clear before the fifth bonus round"
+level = "cycle"
+
+[[clip]]
+id = "tapper.bonus.006"
+name = "The fifth bonus round, won"
+source = "played"
+start = "inputs/tapper.bonus.006.start.presses"
+presses = "inputs/tapper.bonus.006.presses"
+frames = 441
+why = "the fifth shaker round to its end"
+level = "bonus"
+
+[[clip]]
+id = "tapper.clear.022"
+name = "After the fifth bonus round: the sports bar again"
+source = "played"
+start = "inputs/tapper.clear.022.start.presses"
+presses = "inputs/tapper.clear.022.presses"
+frames = 38
+why = "its end and the sports bar's start in the second cycle"
+level = "cycle"
+
+[[changelog]]
+version = "0.2.0"
+date = "2026-11-12"
+says = "The 52 clips of Tapper milestone 3: every level 1 to 15, the five bonus rounds, each between-level sequence, deaths, game over and the attract mode, cut from MAME-checked plays"
+added = ["tapper.attract.001", "tapper.bonus.001", "tapper.bonus.002", "tapper.bonus.003", "tapper.bonus.004", "tapper.bonus.005", "tapper.bonus.006", "tapper.clear.001", "tapper.clear.002", "tapper.clear.003", "tapper.clear.004", "tapper.clear.005", "tapper.clear.006", "tapper.clear.007", "tapper.clear.008", "tapper.clear.009", "tapper.clear.010", "tapper.clear.011", "tapper.clear.012", "tapper.clear.013", "tapper.clear.014", "tapper.clear.015", "tapper.clear.016", "tapper.clear.017", "tapper.clear.018", "tapper.clear.019", "tapper.clear.020", "tapper.clear.021", "tapper.clear.022", "tapper.die.001", "tapper.die.002", "tapper.die.003", "tapper.gameover.001", "tapper.gameover.002", "tapper.l1.001", "tapper.l10.001", "tapper.l11.001", "tapper.l12.001", "tapper.l13.001", "tapper.l14.001", "tapper.l15.001", "tapper.l2.001", "tapper.l3.001", "tapper.l4.001", "tapper.l5.001", "tapper.l6.001", "tapper.l6.002", "tapper.l7.001", "tapper.l8.001", "tapper.l9.001", "tapper.score.001", "tapper.start.001"]
+
+[[clip]]
+id = "tapper.tip.001"
+name = "Bar 4, level 10, a tip picked up"
+source = "generated"
+start = "inputs/tapper.tip.001.start.presses"
+presses = "inputs/tapper.tip.001.presses"
+frames = 74
+why = "the bartender walks from his tap to a tip a customer left and picks it up ($0BC3 falls through to $0BC5): a scripted log, the auto-player's tapper-cycle run to frame 15100, then left held 30 frames"
+level = "bar4"
+
+[[clip]]
+id = "tapper.tip.002"
+name = "Bar 4, level 10, a tip picked up and the show to its end"
+source = "generated"
+start = "inputs/tapper.tip.002.start.presses"
+presses = "inputs/tapper.tip.002.presses"
+frames = 364
+why = "the show a tip starts ($14E7) to its end: $0C25 counts E712 down 255 frames, the customers who watch stand 255 frames ($11AA), then the dancers go ($0C71); tapper.tip.001's log with the bartender left standing 330 frames"
+level = "bar4"
+
+[[clip]]
+id = "tapper.poweron.001"
+name = "From power-on to the attract mode again"
+source = "generated"
+start = "inputs/tapper.poweron.001.start.presses"
+presses = "inputs/tapper.poweron.001.presses"
+frames = 5619
+why = "the model's own start: the boot, the attract mode, a coin and the start, levels 1 to 3 and the bonus round played, three lives lost in level 4 and the game over's first 3 seconds; it ends where our model leaves the game over after 180 frames (no initials, no scoreboard) while the original waits out its 1203-frame initials timer"
+level = "saloon"
+
+[[clip]]
+id = "tapper.rb.attract.001"
+name = "Root Beer: the same presses as tapper.attract.001"
+source = "played"
+start = "inputs/tapper.rb.attract.001.start.presses"
+presses = "inputs/tapper.rb.attract.001.presses"
+frames = 815
+why = "the rbtapper set on tapper.attract.001's presses, so the gate holds the model on Root Beer too"
+level = "saloon"
+
+[[clip]]
+id = "tapper.rb.l1.001"
+name = "Root Beer: the same presses as tapper.l1.001"
+source = "played"
+start = "inputs/tapper.rb.l1.001.start.presses"
+presses = "inputs/tapper.rb.l1.001.presses"
+frames = 335
+why = "the rbtapper set on tapper.l1.001's presses, so the gate holds the model on Root Beer too"
+level = "saloon"
+
+[[clip]]
+id = "tapper.rb.die.001"
+name = "Root Beer: the same presses as tapper.die.001"
+source = "played"
+start = "inputs/tapper.rb.die.001.start.presses"
+presses = "inputs/tapper.rb.die.001.presses"
+frames = 269
+why = "the rbtapper set on tapper.die.001's presses, so the gate holds the model on Root Beer too"
+level = "saloon"
+
+[[clip]]
+id = "tapper.rb.l8.001"
+name = "Root Beer: the same presses as tapper.l8.001"
+source = "played"
+start = "inputs/tapper.rb.l8.001.start.presses"
+presses = "inputs/tapper.rb.l8.001.presses"
+frames = 3942
+why = "the rbtapper set on tapper.l8.001's presses, so the gate holds the model on Root Beer too"
+level = "saloon"
+
+[[clip]]
+id = "tapper.demo.001"
+name = "The attract demo after the boot, no presses"
+source = "generated"
+start = "inputs/tapper.demo.001.start.presses"
+presses = "inputs/tapper.demo.001.presses"
+frames = 1800
+why = "the attract mode's first demo game from the boot with nothing pressed: the logo, the demo screen, the demo's play, its life lost and the high scores"
+level = "attract"
+
+[[clip]]
+id = "tapper.demo.002"
+name = "The attract mode's second demo, no presses"
+source = "generated"
+start = "inputs/tapper.demo.002.start.presses"
+presses = "inputs/tapper.demo.002.presses"
+frames = 1700
+why = "the second demo game of the attract loop, which goes on in the press lists where the first left them (E3C3), with the lives the first left"
+level = "attract"
+
+[[clip]]
+id = "tapper.rb.demo.001"
+name = "Root Beer: the attract demo after the boot, no presses"
+source = "generated"
+start = "inputs/tapper.rb.demo.001.start.presses"
+presses = "inputs/tapper.rb.demo.001.presses"
+frames = 1800
+why = "the rbtapper set's attract mode, whose logo is shorter, and its first demo game"
+level = "attract"
+
+[[clip]]
+id = "tapper.move.001"
+name = "move 001: made by the tools (corpus): tapper.score.001, the test `mode == 0 and pbar == 0` holds 90 frames in"
+source = "played"
+start = "inputs/tapper.move.001.start.presses"
+presses = "inputs/tapper.move.001.presses"
+frames = 211
+why = "a clip of the move mechanic session"
+
+[[changelog]]
+version = "0.3.0"
+date = "2026-11-19"
+says = "tapper.move.001: the move row's clip (tapper.score.001 from frame 411, 211 frames: bar switches up and down, pours and sends)"
+added = ["tapper.move.001"]
+
+[[clip]]
+id = "tapper.move.002"
+name = "Walking each way, starting and stopping"
+source = "generated"
+start = "inputs/tapper.move.002.start.presses"
+presses = "inputs/tapper.move.002.presses"
+frames = 553
+why = "the bartender walks left and right along his bar from rest and stops: long holds, taps of 1 to 3 frames, quick turns left and right, a walk after a bar switch down and up, and a walk back after a pour"
+level = "saloon"
+
+[[clip]]
+id = "tapper.drink.001"
+name = "The saloon, a customer drinking by the door on the bottom bar"
+source = "generated"
+start = "inputs/tapper.drink.001.start.presses"
+presses = "inputs/tapper.drink.001.presses"
+frames = 233
+why = "a mug sent while a bottom-bar customer is near x 71: he is pushed back 3 px a frame for 14 plus a draw of 0 to 20 frames ($09C7), stops at x 8, short of the far end ($0890), and drinks there ($106B), then throws the empty back; made from the code by the probe drink-far-end-bottom (W = 20)"
+level = "saloon"
+
+[[clip]]
+id = "tapper.enemies.002"
+name = "enemies 002: customers walking down the bars (the owner's clip 2)"
+source = "played"
+start = "inputs/tapper.enemies.002.start.presses"
+presses = "inputs/tapper.enemies.002.presses"
+frames = 102
+why = "the enemies row's clip, played by the owner from frame 910: customers come in and walk down the bars on their own; the model matched the original state on every frame"
+
+[[clip]]
+id = "tapper.enemies.003"
+name = "enemies 003: customers walking down the bars (the owner's clip 3)"
+source = "played"
+start = "inputs/tapper.enemies.003.start.presses"
+presses = "inputs/tapper.enemies.003.presses"
+frames = 322
+why = "the enemies row's clip, played by the owner from frame 1587: customers come in and walk down the bars on their own; the model matched the original state on every frame"
+
+[[clip]]
+id = "tapper.attract-demo.001"
+name = "attract-demo 001: The attract demo from the boot with nothing pressed, on tapperg: the logo, the demo screen, the demo's play, its life lost and the high scores"
+source = "played"
+start = "inputs/tapper.attract-demo.001.start.presses"
+presses = "inputs/tapper.attract-demo.001.presses"
+frames = 1800
+why = "a clip of the attract-demo mechanic session"
+
+[[clip]]
+id = "tapper.clear-stage.001"
+name = "clear-stage 001: made by the tools (corpus): tapper.l1.001, the test `cleared >= 1` holds 90 frames in"
+source = "played"
+start = "inputs/tapper.clear-stage.001.start.presses"
+presses = "inputs/tapper.clear-stage.001.presses"
+frames = 90
+why = "a clip of the clear-stage mechanic session"
+
+[[clip]]
+id = "tapper.double-drink-end.001"
+name = "double-drink-end 001: Level 4's end (tapper.l4.001 frames 1379 to 1639): the double drink and the mug that falls on his head, for judging Last Call's falling gl"
+source = "played"
+start = "inputs/tapper.double-drink-end.001.start.presses"
+presses = "inputs/tapper.double-drink-end.001.presses"
+frames = 260
+why = "a clip of the double-drink-end mechanic session"
+
+[[clip]]
+id = "tapper.drink-far-end.001"
+name = "drink-far-end 001: The top bar: a mug sent W frames after the bartender moves up; the customer catches it near x 109, is pushed back ($09C7) and drinks at x 61,"
+source = "played"
+start = "inputs/tapper.drink-far-end.001.start.presses"
+presses = "inputs/tapper.drink-far-end.001.presses"
+frames = 467
+why = "a clip of the drink-far-end mechanic session"
+
+[[clip]]
+id = "tapper.drink-far-end.002"
+name = "drink-far-end 002: The bottom bar: a mug sent W frames after the bartender moves down two bars; the customer catches it near x 71, is pushed back ($09C7) and dr"
+source = "played"
+start = "inputs/tapper.drink-far-end.002.start.presses"
+presses = "inputs/tapper.drink-far-end.002.presses"
+frames = 233
+why = "a clip of the drink-far-end mechanic session"
+
+[[clip]]
+id = "tapper.enemies.001"
+name = "enemies 001: made by the tools (corpus): tapper.bonus.001, the test `mode == 0 and @0 == 0x39 and @3 >= 0x70` holds 90 frames in"
+source = "played"
+start = "inputs/tapper.enemies.001.start.presses"
+presses = "inputs/tapper.enemies.001.presses"
+frames = 211
+why = "a clip of the enemies mechanic session"
+
+[[clip]]
+id = "tapper.game-over.001"
+name = "game-over 001: made by the tools (corpus): tapper.l3.001, the test `mode == 2` holds 90 frames in"
+source = "played"
+start = "inputs/tapper.game-over.001.start.presses"
+presses = "inputs/tapper.game-over.001.presses"
+frames = 201
+why = "a clip of the game-over mechanic session"
+
+[[clip]]
+id = "tapper.get-ready-screen.001"
+name = "get-ready-screen 001: From just after START to the first pour: the GET READY TO SERVE screen on the tapperg set (inputs from corpus clip tapper.drink.001, power"
+source = "played"
+start = "inputs/tapper.get-ready-screen.001.start.presses"
+presses = "inputs/tapper.get-ready-screen.001.presses"
+frames = 220
+why = "a clip of the get-ready-screen mechanic session"
+
+[[clip]]
+id = "tapper.title.001"
+name = "title 001: made by the tools (corpus): tapper.attract.001, the test `mode == 1` holds 1 frames in"
+source = "played"
+start = "inputs/tapper.title.001.start.presses"
+presses = "inputs/tapper.title.001.presses"
+frames = 151
+why = "a clip of the title mechanic session"
+
+[[changelog]]
+version = "0.4.0"
+date = "2026-11-20"
+says = "tapper.enemies.002 and tapper.enemies.003: the owner's two enemies clips (customers walking down the bars), state exact on every frame"
+added = ["tapper.enemies.002", "tapper.enemies.003"]
+
+[[changelog]]
+version = "1.0.0"
+date = "2026-11-20"
+says = "gp corpus import from the mechanic sessions: added tapper.attract-demo.001, tapper.clear-stage.001, tapper.double-drink-end.001, tapper.drink-far-end.001, tapper.drink-far-end.002, tapper.enemies.001, tapper.game-over.001, tapper.get-ready-screen.001, tapper.title.001."
+
+[[clip]]
+id = "tapper.slide.001"
+name = "Level 3, nothing pressed: a customer reaches the end and slides the bartender off a bar's right end"
+source = "generated"
+start = "inputs/tapper.slide.001.start.presses"
+presses = "inputs/tapper.slide.001.presses"
+frames = 700
+why = "a slide off a sports bar's end, where the bar ends inside the screen (row shoved-bartender-shows-through-background)"
+level = "bar2"
+
+[[clip]]
+id = "tapper.gameover.003"
+name = "Game over, initials entered"
+source = "played"
+start = "inputs/tapper.gameover.003.start.presses"
+presses = "inputs/tapper.gameover.003.presses"
+frames = 550
+why = "the initials entered with the stick and the tapper: a letter stepped up once and held up, down to blank and to Z, each place entered, the third ending the wait early"
+level = "saloon"
+
+[[clip]]
+id = "tapper.gameover-high-score-table.001"
+name = "gameover-high-score-table 001: probe high-score-table-second-game: A second game after power-on whose score is below the first's: its entry at the second place,"
+source = "played"
+start = "inputs/tapper.gameover-high-score-table.001.start.presses"
+presses = "inputs/tapper.gameover-high-score-table.001.presses"
+frames = 13964
+why = "a clip of the gameover-high-score-table mechanic session"
+
+[[clip]]
+id = "tapper.gameover-high-score-table.004"
+name = "gameover-high-score-table 004: The attract mode after two games, through its demo to its high scores: both entries ($4A37's $3CE1)"
+source = "played"
+start = "inputs/tapper.gameover-high-score-table.004.start.presses"
+presses = "inputs/tapper.gameover-high-score-table.004.presses"
+frames = 1528
+why = "a clip of the gameover-high-score-table mechanic session"
+
+[[changelog]]
+version = "1.1.0"
+date = "2026-11-23"
+says = "gp corpus import from the mechanic sessions: added tapper.gameover-high-score-table.001, tapper.gameover-high-score-table.004."
+added = ["tapper.gameover-high-score-table.001", "tapper.gameover-high-score-table.004"]
+
+[[clip]]
+id = "tapper.gameover-attract.001"
+name = "Game over into the attract mode"
+source = "played"
+start = "inputs/tapper.gameover-attract.001.start.presses"
+presses = "inputs/tapper.gameover-attract.001.presses"
+frames = 1500
+why = "the game over's initials wait run out with no initials entered (its 1200-frame timer), into the attract mode's logo and its instruction scene"
+level = "saloon"
+
+[[changelog]]
+version = "1.2.0"
+date = "2026-11-23"
+says = "tapper.gameover-attract.001: the game over's initials wait run out into the attract mode's logo and instruction scene (row gameover-end-into-attract)"
+added = ["tapper.gameover-attract.001"]
+
+[[clip]]
+id = "tapper.gameover.004"
+name = "Game over, initials to the high scores"
+source = "played"
+start = "inputs/tapper.gameover.004.start.presses"
+presses = "inputs/tapper.gameover.004.presses"
+frames = 1800
+why = "the initials entered (C, a blank and B) into the high scores' empty table, then the attract mode to its HIGH SCORES, which lists the entry"
+level = "saloon"
+
+[[clip]]
+id = "tapper.gameover.005"
+name = "Second game over, initials below the first"
+source = "played"
+start = "inputs/tapper.gameover.005.start.presses"
+presses = "inputs/tapper.gameover.005.presses"
+frames = 1750
+why = "a second game's score (0) under the first's (BAA, 19950, entered after the game of tapper.gameover.002) takes the high scores' second place: the initials C, A, A entered there, then the attract mode's HIGH SCORES listing both"
+level = "saloon"
+
+[[clip]]
+id = "tapper.gameover.006"
+name = "Game over with no place in the high scores"
+source = "played"
+start = "inputs/tapper.gameover.006.start.presses"
+presses = "inputs/tapper.gameover.006.presses"
+frames = 1269
+why = "the high scores full (the first game's of tapper.gameover-high-score-table.001 and nine of 50, a customer served in each), a tenth game's 0 has no place ($2C1A to $2C29): no initials and no table, one frame of the game over and then the attract mode's logo"
+level = "saloon"
+
+[[clip]]
+id = "tapper.gameover-high-score-table.002"
+name = "gameover-high-score-table 002: probe high-score-table-second-initials: The second game over's initials: its entry (B, a blank, A, score 0) at the second place, "
+source = "played"
+start = "inputs/tapper.gameover-high-score-table.002.start.presses"
+presses = "inputs/tapper.gameover-high-score-table.002.presses"
+frames = 472
+why = "a start on the game over's first frame (state 13, E3BD 0, the sound queue empty): the second game over's initials, B, a blank and A at the high scores' second place under the first game's"
+level = "saloon"
+
+[[clip]]
+id = "tapper.gameover-high-score-table.003"
+name = "gameover-high-score-table 003: probe high-score-table-attract: The attract mode's high scores after two games: both entries ($4A37's $3CE1)"
+source = "played"
+start = "inputs/tapper.gameover-high-score-table.003.start.presses"
+presses = "inputs/tapper.gameover-high-score-table.003.presses"
+frames = 224
+why = "a clip of the gameover-high-score-table mechanic session"
+
+[[clip]]
+id = "tapper.gameover-high-score-table.005"
+name = "gameover-high-score-table 005: probe high-score-table-second-initials, from 28 frames before the game over: the second game over's initials, its entry (B, a bla"
+source = "played"
+start = "inputs/tapper.gameover-high-score-table.005.start.presses"
+presses = "inputs/tapper.gameover-high-score-table.005.presses"
+frames = 500
+why = "a clip of the gameover-high-score-table mechanic session"
+
+[[clip]]
+id = "tapper.gameover-no-place-in-table.002"
+name = "gameover-no-place-in-table 002: probe no-place-end: probe no-place-end: the tenth game's last life and its game over with no place in the full table: GAME OVER,"
+source = "played"
+start = "inputs/tapper.gameover-no-place-in-table.002.start.presses"
+presses = "inputs/tapper.gameover-no-place-in-table.002.presses"
+frames = 1269
+why = "a clip of the gameover-no-place-in-table mechanic session"
+
+[[clip]]
+id = "tapper.gameover-wait-start.001"
+name = "gameover-wait-start 001: probe gameover-first-wait: A start inside GAME OVER's first wait of 60 ($2467), the run of gameover-high-score-table clip 5 from 11900"
+source = "played"
+start = "inputs/tapper.gameover-wait-start.001.start.presses"
+presses = "inputs/tapper.gameover-wait-start.001.presses"
+frames = 560
+why = "a clip of the gameover-wait-start mechanic session"
+
+[[changelog]]
+version = "1.3.0"
+date = "2026-11-23"
+says = "gp corpus import from the mechanic sessions: added tapper.gameover-high-score-table.002 (the second game over's initials, from the game over's first frame)"
+added = ["tapper.gameover-high-score-table.002"]
+
+[[changelog]]
+version = "2.0.0"
+date = "2026-11-23"
+says = "gp corpus import from the mechanic sessions: added tapper.gameover-high-score-table.003, tapper.gameover-high-score-table.005, tapper.gameover-no-place-in-table.002, tapper.gameover-wait-start.001."
+
+[[clip]]
+id = "tapper.gameover-no-place-in-table.001"
+name = "Ten games filling the high scores, then the attract demo"
+source = "played"
+start = "inputs/tapper.gameover-no-place-in-table.001.start.presses"
+presses = "inputs/tapper.gameover-no-place-in-table.001.presses"
+frames = 27706
+why = "from the attract mode after the demo (E38E 240), nine games of 50 fill the high scores and a tenth game's 0, played with no presses, has no place ($2C29); its play's reads ($2B3A) leave E38E 0, so the attract demo that follows stands still until its first pick ($59DD)"
+level = "saloon"
+
+[[clip]]
+id = "tapper.tip.003"
+name = "The saloon again, level 14, a tip picked up and the show to its end"
+source = "generated"
+start = "inputs/tapper.tip.003.start.presses"
+presses = "inputs/tapper.tip.003.presses"
+frames = 360
+why = "the dancers' show in the saloon ($14E7 to $0C71's end, 255 frames), where the moose hangs: tapper.l14.001's log to frame 22743, then the bartender walks right along the second bar from the bottom to the tip, picked up on frame 38 of the clip, steps down to catch the bottom bar's empty mugs, and goes back up to serve the second bar during the show; the dancers go on frame 292 with no life lost"
+level = "cycle"
+
+[[clip]]
+id = "tapper.theme-trophy-fright.001"
+name = "theme-trophy-fright 001: tapper.die.001's presses from 120 frames earlier: play in the first saloon, the first life lost at clip frame 120, GET READY, play agai"
+source = "played"
+start = "inputs/tapper.theme-trophy-fright.001.start.presses"
+presses = "inputs/tapper.theme-trophy-fright.001.presses"
+frames = 389
+why = "a clip of the theme-trophy-fright mechanic session"
+
+[[clip]]
+id = "tapper.pour-clips-by-hand.001"
+name = "Bar 1, level 1, full pours as fast as a person can make them"
+source = "generated"
+start = "inputs/tapper.pour-clips-by-hand.001.start.presses"
+presses = "inputs/tapper.pour-clips-by-hand.001.presses"
+frames = 146
+why = "probe pour-fast: six pulls of 6 frames (the fastest full pour), let go 2 between; the original fills and sends five mugs, the pull on the frame after a send lost, and a life goes to the mugs no one catches"
+level = "bar1"
+
+[[clip]]
+id = "tapper.pour-clips-by-hand.002"
+name = "Bar 1, level 1, mugs poured in short pulls"
+source = "generated"
+start = "inputs/tapper.pour-clips-by-hand.002.start.presses"
+presses = "inputs/tapper.pour-clips-by-hand.002.presses"
+frames = 158
+why = "probe pour-short-pulls: pulls of 2 or 3 frames, let go 2 or 3 between; the original sends three mugs, each on the first release after its 6th frame held in all"
+level = "bar1"
+
+[[clip]]
+id = "tapper.pour-clips-by-hand.003"
+name = "Bar 1, level 1, a pull let go too early"
+source = "generated"
+start = "inputs/tapper.pour-clips-by-hand.003.start.presses"
+presses = "inputs/tapper.pour-clips-by-hand.003.presses"
+frames = 178
+why = "probe pour-let-go-early: a pull of 3 frames let go, the half mug waiting at the tap until the next pull fills and sends it; a second half pour walked away from (a bar down and back) starts again from empty"
+level = "bar1"
+
+[[clip]]
+id = "tapper.pour-clips-by-hand.004"
+name = "Bar 1, level 1 played to its clear at a person's speed"
+source = "generated"
+start = "inputs/tapper.pour-clips-by-hand.004.start.presses"
+presses = "inputs/tapper.pour-clips-by-hand.004.presses"
+frames = 365
+why = "probe pour-level-1: tapper.l1.001's plan with presses a person makes, bar moves of 2 frames and pours of 7 to 9; it clears on the same frame"
+level = "bar1"
+
+[[changelog]]
+version = "2.1.0"
+date = "2026-11-25"
+says = "gp corpus import from the mechanic sessions: added tapper.theme-trophy-fright.001."
+added = ["tapper.theme-trophy-fright.001"]
+
+[[changelog]]
+version = "3.0.0"
+date = "2026-11-25"
+says = "the 12 clips the import saved with NES button names (tapper.attract-demo.001, tapper.clear-stage.001, tapper.double-drink-end.001, tapper.drink-far-end.001, tapper.drink-far-end.002, tapper.enemies.001 to .003, tapper.game-over.001, tapper.get-ready-screen.001, tapper.move.001, tapper.title.001) written again with the arcade's names and `arcade tapper CSRLDUT`: the same presses on the same frames, scored on the tapper set as before, every clip's score the same"
+changed = ["tapper.attract-demo.001", "tapper.clear-stage.001", "tapper.double-drink-end.001", "tapper.drink-far-end.001", "tapper.drink-far-end.002", "tapper.enemies.001", "tapper.enemies.002", "tapper.enemies.003", "tapper.game-over.001", "tapper.get-ready-screen.001", "tapper.move.001", "tapper.title.001"]
+
+[[changelog]]
+version = "3.1.0"
+date = "2026-11-28"
+says = "gp corpus import from the mechanic sessions: added tapper.pour-clips-by-hand.001, tapper.pour-clips-by-hand.002, tapper.pour-clips-by-hand.003, tapper.pour-clips-by-hand.004."
+added = ["tapper.pour-clips-by-hand.001", "tapper.pour-clips-by-hand.002", "tapper.pour-clips-by-hand.003", "tapper.pour-clips-by-hand.004"]

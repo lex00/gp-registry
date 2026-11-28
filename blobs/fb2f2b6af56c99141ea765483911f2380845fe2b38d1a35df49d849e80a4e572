@@ -1,0 +1,133 @@
+# Probe recipes for Tapper (tapper), written empty by gp game new. Each is
+# a start and presses that reproduce an evidence clip, and the
+# measurements its evidence quotes with the value each must have.
+
+# RAM addresses by name, each from the model's evidence or the mapping.
+[watch]
+lives = 0xE4A7    # spare lives
+pbar = 0xE6F9     # the bartender's bar: 0 the bottom to 3 the top; a move past either wraps
+b0x = 0xE265      # customer slot 0's x (the bottom bar's first, objects from E262, 8 bytes each)
+s0 = 0xE4B2       # customer slot 0's state, its record's +0 (records from E4B2, 0x20 each): 0 waiting, 5 walking, 1 pushed back, 2 drinking, 3 and 4 after the throw
+c0x = 0xE2C5      # customer slot 12's x (the top bar's first)
+s12 = 0xE632      # customer slot 12's state
+pour = 0xE715     # the pour's count: 4 at the pour's first frame ($121E), down 1 a frame held, 0 full
+full = 0xE714     # 1 the mug at the tap is full
+send = 0xE718     # 1 a full mug to send on the tap's release ($13CC)
+cleared = 0xE4A8  # levels cleared
+
+# ---- A customer drinking at the far end ---------------------------------
+#
+# A customer who catches a full mug is pushed back toward the far end for
+# 14 frames plus a draw of 0 to 20 ($09C7), 3 px a frame on the saloon, and
+# is served and goes the frame his x is past the bar's far end ($0890);
+# where the push stops short of it he drinks there ($106B). In the sweeps
+# a customer pushed to x 7 or below on the bottom bar was served and one
+# stopped at 8 drank; on the top bar, served at 55 and below. The base is
+# move/1's path at 411, the saloon's first play, three spare lives, the
+# bartender on bar 2 (worker loop-s698258c1fd8f's sweeps, 2026-11-19).
+
+# The top bar: one tap up, W frames, a mug sent. W = 330: caught at x 109
+# and pushed to x 61, a few short of the far end, where he drinks. It stops
+# 100 frames into the drink: a bottom-bar customer reaches the taps at
+# frame 887 and a life goes.
+[[probe]]
+id = "drink-far-end-top"
+session = "drink-far-end"
+clips = [1]
+note = "The top bar: a mug sent W frames after the bartender moves up; the customer catches it near x 109, is pushed back ($09C7) and drinks at x 61, a few short of the bar's far end (served at 55 and below) ($106B)"
+base = { path = "cd15c596319afca47c779ae5cee1a7b1df921c9212d28d92893ab0e38e22d5b8", at = 411 }
+steps = [". 1", "U 2", ". {W}", "T 10", "until s12 == 2 . max 400", ". 100"]
+sweep = { W = [330] }
+check = [
+  { measure = "min c0x while s12 == 2", expect = 61 },
+  { measure = "count lives == 2", expect = 0 },
+]
+
+# The bottom bar: two taps down, W frames, a mug sent. W = 20: pushed back
+# from x 71 to x 8, the last x short of the far end, where he drinks.
+[[probe]]
+id = "drink-far-end-bottom"
+session = "drink-far-end"
+clips = [2]
+note = "The bottom bar: a mug sent W frames after the bartender moves down two bars; the customer catches it near x 71, is pushed back ($09C7) and drinks at x 8, by the door ($106B)"
+base = { path = "cd15c596319afca47c779ae5cee1a7b1df921c9212d28d92893ab0e38e22d5b8", at = 411 }
+steps = [". 1", "D 2", ". 16", "D 2", ". 16", ". {W}", "T 10", "until s0 == 2 . max 400", ". 120"]
+sweep = { W = [20] }
+check = [
+  { measure = "min b0x while s0 == 2", expect = 8 },
+  { measure = "count lives == 2", expect = 0 },
+]
+
+# ---- Pours at a person's speed ---------------------------------------------
+#
+# The owner, 2026-11-22, asked for pours a person makes: as fast as they
+# can, in short pulls, a pull let go too early, and a game of level 1; on
+# 2026-11-27, 'you can get those recording yourself', so these make them.
+# Every press and every gap is 2 frames or more at 30 a second (the human
+# floor of gp clip feasible). The base is tapper.l1.001's path at its
+# start, 1099, the saloon's first play with the bartender on bar 2.
+#
+# On the original, a pull read on frame F sets the count to 4 on F+1 and
+# takes 1 off on each frame held after; the mug is full (send 1) on the
+# 6th frame held and goes on the release: the tap held 6 frames is the
+# fastest full pour, 6 frames (200 ms) from the pull to the send. Held 5
+# and let go, the count stays at 1 and the next pull goes on from it.
+
+# Six pulls of 6 frames, 2 let go between: five mugs filled and sent (the
+# pull that falls on the frame after a send is lost), and a life when the
+# mugs no one catches break at the far end.
+[[probe]]
+id = "pour-fast"
+session = "pour-clips-by-hand"
+note = "Six full pours as fast as a person can make them: the tap held 6 frames, let go 2; the original fills and sends five mugs, the first full on the 6th frame held"
+base = { path = "21ed47e590041f18dff29d512bec1e82523f08c01a991955cb2ab4f6a579a230", at = 1099 }
+steps = [". 10", "T 6", ". 2", "T 6", ". 2", "T 6", ". 2", "T 6", ". 2", "T 6", ". 2", "T 6", ". 90"]
+check = [
+  { measure = "first pour != 0", expect = 1110 },
+  { measure = "first send == 1", expect = 1114 },
+  { measure = "values send at changes send", expect = [1, 0, 1, 0, 1, 0, 1, 0, 1, 0] },
+  { measure = "values lives at changes lives", expect = [2] },
+]
+
+# Mugs filled in pulls of 2 or 3 frames, let go 2 or 3 between: each mug
+# goes on the first release after its 6th frame held in all.
+[[probe]]
+id = "pour-short-pulls"
+session = "pour-clips-by-hand"
+note = "Mugs poured in short pulls of 2 or 3 frames, let go and pulled again: the original sends three mugs, each on the release after it fills"
+base = { path = "21ed47e590041f18dff29d512bec1e82523f08c01a991955cb2ab4f6a579a230", at = 1099 }
+steps = [". 10", "T 2", ". 2", "T 2", ". 2", "T 2", ". 2", "T 2", ". 8", "T 2", ". 3", "T 3", ". 2", "T 2", ". 2", "T 2", ". 8", "T 3", ". 2", "T 3", ". 2", "T 2", ". 90"]
+check = [
+  { measure = "values send at changes send", expect = [1, 0, 1, 0, 1, 0] },
+  { measure = "values pour at changes pour", expect = [4, 3, 2, 1, 0, 4, 3, 2, 1, 0, 4, 3, 2, 1, 0, 4, 3, 2] },
+]
+
+# A pull let go after 3 frames: the half-full mug waits at the tap and the
+# next pull finishes it. Then one let go and walked away from (a bar down
+# and back up): the count starts again from 4.
+[[probe]]
+id = "pour-let-go-early"
+session = "pour-clips-by-hand"
+note = "A pull let go too early: the mug waits half full at the tap and the next pull fills and sends it; a second half pour walked away from starts again from empty"
+base = { path = "21ed47e590041f18dff29d512bec1e82523f08c01a991955cb2ab4f6a579a230", at = 1099 }
+steps = [". 10", "T 3", ". 30", "T 4", ". 20", "T 3", ". 4", "D 2", ". 30", "U 2", ". 6", "T 4", ". 60"]
+check = [
+  { measure = "values send at changes send", expect = [1, 0] },
+  { measure = "values pour at changes pour", expect = [4, 3, 2, 1, 0, 4, 3, 2, 0, 4, 3, 2, 1] },
+  { measure = "values pbar at changes pbar", expect = [2, 1, 2] },
+  { measure = "count lives == 2", expect = 0 },
+]
+
+# Level 1 played to its clear with a person's presses: moves of 2 frames
+# and pours of 7 to 9, one mug to each bar's customer.
+[[probe]]
+id = "pour-level-1"
+session = "pour-clips-by-hand"
+note = "Level 1 played to its clear with presses a person makes: a bar move of 2 frames, pours of 7 to 9; it clears on frame 1434, as tapper.l1.001"
+base = { path = "21ed47e590041f18dff29d512bec1e82523f08c01a991955cb2ab4f6a579a230", at = 1099 }
+steps = [". 10", "U 2", ". 5", "U 2", ". 11", "U 2", ". 5", "T 7", ". 2", "U 2", ". 5", "T 9", ". 2", "U 2", ". 5", "T 8", ". 2", "U 2", ". 5", "T 8", "until cleared >= 1 . max 400", ". 30"]
+check = [
+  { measure = "first cleared >= 1", expect = 1434 },
+  { measure = "values send at changes send", expect = [1, 0, 1, 0, 1, 0, 1, 0] },
+  { measure = "count lives == 2", expect = 0 },
+]

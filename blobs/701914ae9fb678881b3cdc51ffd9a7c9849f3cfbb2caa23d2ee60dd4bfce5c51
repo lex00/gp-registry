@@ -1,0 +1,142 @@
+# Profiles for Tapper, written by gp game new. The model as written is
+# "retro", every switch off, and every comparison and score uses it.
+#
+# "normal" is the game with no lag and none of the console's quirks. It
+# turns nothing on yet. When the model gains an option for a quirk of the
+# original, add a switch that turns it off, in the group "timing" for
+# frame timing and lag, else in a group such as "fixes", and list it in
+# "normal".
+
+format = "0.2.0"
+
+[presets.normal]
+description = "No lag and no console quirks"
+switches = ["any_way_stick", "every_catch", "no_boot_test", "coin_on_press"]
+
+[[groups]]
+description = "The arcade board's and cabinet's quirks, off one at a time"
+name = "board"
+title = "Board"
+
+[[groups.switches]]
+description = "Two directions on the stick at once reach the game as they are, which takes right, then left, then down, then up, instead of the cabinet's four-way stick choosing one"
+name = "any_way_stick"
+
+[groups.switches.set]
+"entities.player.ext_params.four_way" = 0
+
+[[groups.switches]]
+description = "The attract mode from the first frame, instead of after the boot's wait on the sound board's answers ($CFC5, 52 frames after the model's first, in which a start isn't taken)"
+name = "no_boot_test"
+
+[groups.switches.set]
+"entities.flow.ext_params.boot_wait" = 0
+
+[[groups.switches]]
+description = "A coin's credit on the frame it goes in, instead of the coin routine's on the frame its switch is let go ($0213 takes the switch let go after a coin as the coin)"
+name = "coin_on_press"
+
+[groups.switches.set]
+"entities.flow.ext_params.coin_on_press" = 1
+
+[[groups]]
+description = "Ways to make the game easier, each one number the game's own code reads"
+name = "easier"
+title = "Easier"
+
+[[groups.switches]]
+description = "A game starts with 5 lives, not the board's setting of 3 (the lives a start copies from the settings at $4B1F)"
+name = "five_lives"
+
+[groups.switches.set]
+"entities.flow.ext_params.lives_set" = 5
+
+[[groups.switches]]
+description = "A customer you served takes three times as long to come back: a level's two respawn waits are three times the program's own (the level's times table, its words 0 and 8)"
+name = "slower_arrivals"
+
+[groups.switches.set]
+"entities.bars.ext_params.wait_percent" = 300
+
+[[groups.switches]]
+description = "Customers come down the bar at about a third of the pace: each stands three times as long between two walks (the wait a customer's record holds, which the program shortens as a level goes on)"
+name = "slower_customers"
+
+[groups.switches.set]
+"entities.bars.ext_params.customer_wait_percent" = 300
+
+[[groups.switches]]
+description = "Empty mugs slide back along the bar at half the pace, so the bartender has twice as long to catch one; full mugs keep the program's speed (the empty mug's speed E3B0, in steps of a 256th of a pixel)"
+name = "slower_empties"
+
+[groups.switches.set]
+"entities.bars.ext_params.empty_speed_percent" = 50
+
+[[groups.switches]]
+description = "An empty mug never breaks: one that slides past the bartender's end of its bar is gone, with no points and no life lost, instead of falling and costing a life"
+name = "safe_empties"
+
+[groups.switches.set]
+"entities.bars.ext_params.empties_safe" = 1
+
+[[groups.switches]]
+description = "A game starts on level 3, the sports bar's first, as if two levels were cleared; a start further on, when on too, counts"
+name = "start_on_level_3"
+
+[groups.switches.set]
+"entities.flow.ext_params.start_cleared_near" = 2
+
+[[groups.switches]]
+description = "A game starts on level 8, the punk bar's third, as if seven levels were cleared"
+name = "start_on_level_8"
+
+[groups.switches.set]
+"entities.flow.ext_params.start_cleared" = 7
+
+[[groups.switches]]
+description = "A game starts on level 10, the space bar's first, as if nine levels were cleared; with start on level 8 on too, this one counts"
+name = "start_on_level_10"
+
+[groups.switches.set]
+"entities.flow.ext_params.start_cleared_far" = 9
+
+[[groups.switches]]
+description = "A game starts on level 14, the saloon again after the space bar, as if thirteen levels were cleared; with an earlier start on too, this one counts"
+name = "start_on_level_14"
+
+[groups.switches.set]
+"entities.flow.ext_params.start_cleared_last" = 13
+
+[[groups]]
+description = "The original program's own slips, off one at a time"
+name = "fixes"
+title = "Fixes"
+
+[[groups.switches]]
+description = "The bartender catches every empty mug in reach on a frame, and a tip after them, instead of the original's one: its catch ($0B63) loses his place to the points call after the first ($0BF2, $5EE7)"
+name = "every_catch"
+
+[groups.switches.set]
+"entities.bars.ext_params.catch_once" = 0
+
+# Tapper's board quirks (bring.md's table), each to be a switch in a group
+# "board" as soon as the model has the part that carries it. Retro is the
+# board's behaviour; Normal turns the quirk off. The first draft models
+# only the bartender's place, so none of them has a model path to switch
+# yet; each line says where its switch will go.
+#
+# - 30 Hz frame: model.frame_rate is 30. Normal at 60 needs every per-frame
+#   step halved, so it waits for the model's timers.
+# - Boot frames: the game reads nothing for its first 94 frames (the
+#   corpus pairing's k 94). The model starts after them, then waits the
+#   sound board's test (boot_wait); no_boot_test above starts the attract
+#   mode at once.
+# - Coin switch: a credit when the coin is let go; coin_on_press above.
+# - 4-way joystick: the switch any_way_stick above. Clips hold what reached
+#   the board, already one direction, so it changes no clip.
+# - Watchdog: a tilt hangs the game and the board resets. Goes with the
+#   tilt and the reset, which the model doesn't have.
+# - Doubled tiles, sprite pixel 8, no sprite limit, the palette's ninth
+#   bit: the picture's; they go with the model's presentation.
+# - Sound: DC offset, duty volume, volume steps, stereo by chip: they go
+#   with the model's sound.
